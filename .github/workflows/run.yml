@@ -1,0 +1,68 @@
+name: Run
+
+on:
+  schedule:
+    - cron: "0 * * * *"    # Run zu jeder vollen Stunde
+  workflow_dispatch:       # Run manuell ausgelöst
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Repo auschecken
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Python-Version auswählen
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      # Dependencies installieren (falls Datei vorhanden)
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      # Lade Konfiguration
+      - name: Write secret students configuration to JSON file
+        run: |
+          echo "${CONFIG_JSON}" > students.json
+        env:
+          CONFIG_JSON: ${{ secrets.STUDENTS }}
+
+      # Laden der bereits bekannten Vertretungen 
+      # aus dem vorhergehenden Run, zur Vermeidung doppelter Benachrichtigungen
+      - name: Load cached state
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: .state/
+          key: state-cache
+
+      # Erstelle .state Verzeichnis, falls es noch nicht existiert
+      - name: Ensure state exists
+        run: mkdir -p .state
+
+      # Debug: Zeige Dateien
+      - name: List files
+        run: ls -la
+
+      # Python Script ausführen
+      - name: Run Python script
+        env:
+          EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT }}
+          EMAIL_SMTP_SERVER: ${{ secrets.EMAIL_SMTP_SERVER }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+        run: python main.py
+
+      # Zwischenspeichern der bereits bekannten Vertretungen 
+      # für den nächsten Run, zur Vermeidung doppelter Benachrichtigungen
+      - name: Save state to cache
+        uses: actions/cache@v4
+        with:
+          path: .state/
+          key: state-cache
