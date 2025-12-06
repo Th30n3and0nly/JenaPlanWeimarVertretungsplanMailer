@@ -45,10 +45,6 @@ jobs:
       - name: Ensure state exists
         run: mkdir -p .state
 
-      # Debug: Zeige Dateien
-      - name: List files
-        run: ls -la
-
       # Python Script ausführen
       - name: Run Python script
         env:
