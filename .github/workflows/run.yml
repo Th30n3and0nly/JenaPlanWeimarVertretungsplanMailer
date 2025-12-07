@@ -2,7 +2,7 @@ name: Run
 
 on:
   schedule:
-    - cron: "0 * * * *"    # Run zu jeder vollen Stunde
+    - cron: "0 6-22 * * *"    # Run zu jeder vollen Stunde von 6 bis 22 Uhr
   workflow_dispatch:       # Run manuell ausgelöst
 
 jobs:
