@@ -41,7 +41,7 @@ jobs:
           path: .state/
           key: state-cache
 
-      - name: Debug: cat cache
+      - name: Debug cat cache
         run: cat .state/knownSubstitutions.txt
 
       # Erstelle .state Verzeichnis, falls es noch nicht existiert
