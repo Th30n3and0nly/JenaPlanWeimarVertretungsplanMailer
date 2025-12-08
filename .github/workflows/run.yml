@@ -55,8 +55,8 @@ jobs:
       - name: Debug list cache 2
         run: ls -l .state/
 
-      - name: Debug cat cache 2
-        run: cat .state/*
+      #- name: Debug cat cache 2
+      #  run: cat .state/*
 
       # Python Script ausführen
       - name: Run Python script
