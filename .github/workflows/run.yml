@@ -42,11 +42,11 @@ jobs:
           restore-keys: |
               substitutionsCache-
 
-      #- name: Debug list cache
-      #  run: ls -l .state/knownSubstitutions.txt
+      - name: Debug list cache
+        run: ls -l .state/knownSubstitutions.txt
 
-      #- name: Debug cat cache
-      #  run: cat .state/knownSubstitutions.txt
+      - name: Debug cat cache
+        run: cat .state/knownSubstitutions.txt
 
       # Erstelle .state Verzeichnis, falls es noch nicht existiert
       - name: Ensure state exists
@@ -55,8 +55,8 @@ jobs:
       - name: Debug list cache 2
         run: ls -l .state/
 
-      #- name: Debug cat cache 2
-      #  run: cat .state/*
+      - name: Debug cat cache 2
+        run: cat .state/*
 
       # Python Script ausführen
       - name: Run Python script
