@@ -35,10 +35,12 @@ jobs:
       # Laden der bereits bekannten Vertretungen 
       # aus dem vorhergehenden Run, zur Vermeidung doppelter Benachrichtigungen
       - name: Load cached state
-        uses: actions/cache/restore@v4
+        uses: actions/cache@v4
         with:
           path: .state/
-          key: state-cache
+          key: substitutionsCache-${{ github.run-id }}
+          restore-keys: |
+              substitutionsCache-
 
       - name: Debug list cache
         run: ls -l .state/knownSubstitutions.txt
@@ -78,4 +80,4 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: .state/
-          key: state-cache
+          key: substitutionsCache-${{ github.run-id }}
