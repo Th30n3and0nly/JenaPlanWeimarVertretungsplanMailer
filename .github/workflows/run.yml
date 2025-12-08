@@ -35,11 +35,13 @@ jobs:
       # Laden der bereits bekannten Vertretungen 
       # aus dem vorhergehenden Run, zur Vermeidung doppelter Benachrichtigungen
       - name: Load cached state
-        id: cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: .state/
           key: state-cache
+
+      - name: Debug list cache
+        run: cat .state/knownSubstitutions.txt
 
       - name: Debug cat cache
         run: cat .state/knownSubstitutions.txt
@@ -47,6 +49,12 @@ jobs:
       # Erstelle .state Verzeichnis, falls es noch nicht existiert
       - name: Ensure state exists
         run: mkdir -p .state
+
+      - name: Debug list cache 2
+        run: cat .state/knownSubstitutions.txt
+
+      - name: Debug cat cache 2
+        run: cat .state/knownSubstitutions.txt
 
       # Python Script ausführen
       - name: Run Python script
@@ -58,10 +66,16 @@ jobs:
           EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
         run: python main.py
 
+      - name: Debug list cache 3
+        run: cat .state/knownSubstitutions.txt
+
+      - name: Debug cat cache 3
+        run: cat .state/knownSubstitutions.txt
+
       # Zwischenspeichern der bereits bekannten Vertretungen 
       # für den nächsten Run, zur Vermeidung doppelter Benachrichtigungen
       - name: Save state to cache
-        uses: actions/cache@v4
+        uses: actions/cache/save@v4
         with:
           path: .state/
           key: state-cache
