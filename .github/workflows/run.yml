@@ -38,7 +38,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .state/
-          key: substitutionsCache-${{ github.run-id }}
+          key: substitutionsCache-${{ github.run_id }}
           restore-keys: |
               substitutionsCache-
 
@@ -80,4 +80,4 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: .state/
-          key: substitutionsCache-${{ github.run-id }}
+          key: substitutionsCache-${{ github.run_id }}
