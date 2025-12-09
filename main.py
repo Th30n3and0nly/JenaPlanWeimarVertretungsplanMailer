@@ -24,12 +24,12 @@ def mailBody(student,date,substitutions,url):
     return body
 
 def cacheSizeControl():
-    # Limitiere Cache auf 100 Zeilen
+    # limit cache to 100 lines
     with open(cacheFile, "r") as f:
         lines = f.readlines()
 
     if len(lines) > 100:
-        print("Cache size > 100 lines, will only keep latest 100.")
+        print("Cache size > 100 lines. I will only keep latest 100.")
         lines = lines[-100:]
 
     # Datei überschreiben
@@ -37,36 +37,39 @@ def cacheSizeControl():
         f.writelines(lines)
                
 def main():
-    # erstelle Cache-Datei, falls sie noch nicht existiert
+    # our cache file will contain hashes for already known substitutions to mitigate email spam
     try:
         with open(cacheFile, 'x') as file:
             file.write('')
     except FileExistsError:
         pass
-
-    # lese Konfiguration
+        
     with open('students.json') as file:
         students = json.load(file)
   
     for student in students:
-        # der Vertretungsplan kennt 3 Tage
+        # the substitution plan knows 3 days (today, tomorrow and the day after tomorrow (ignoring weekends, holidays, etc.))
         for day in [0,1,2]:
             [date,substitutions,url] = SubstitutionsChecker.check(day, student["memberships"])
-            # diese Variable entscheidet, ob eine Mail versendet werden sollte
+            
+            # containsNews decides if a mail will be sent or not
             containsNews = False
             for sub in substitutions:
                 print("Assessing found substition:")
                 print(sub)
                 toHash = ','.join([student["name"],date]+list(sub.values()))
                 hashed = hashlib.sha256(toHash.encode('utf-8')).hexdigest()
-
+                print("The substitutions hash is: " + hashed)
+                
                 isKnownSubstitution = False
                 with open(cacheFile) as f:
-                    print("The substitutions hash is: " + hashed)
-                    print(f.read())
-                    if hashed in f.read():
-                        print("This substitution is already known.")
-                        isKnownSubstitution = True
+                    knownSubstitutions =  f.read()
+                print("The known, hashed substitutions are:")
+                print(knownSubstitutions)
+                
+                if hashed in knownSubstitutions:
+                    print("This substitution is already known.")
+                    isKnownSubstitution = True
 
                 if not isKnownSubstitution:
                     print("This substition is new or changed.")
@@ -75,7 +78,7 @@ def main():
                         file.write(hashed + '\n')
 
             if containsNews:
-                print("There is at least one new or changed substitution. Will continue to send info mail.")
+                print("There is at least 1 new or changed substitution. Will continue to send info mail.")
                 subject = mailSubject(student,date)
                 body = mailBody(student,date,substitutions,url)
               
