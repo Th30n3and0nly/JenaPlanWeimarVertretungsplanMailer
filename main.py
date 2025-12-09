@@ -29,6 +29,7 @@ def cacheSizeControl():
         lines = f.readlines()
 
     if len(lines) > 100:
+        print("Cache size > 100 lines, will only keep latest 100.")
         lines = lines[-100:]
 
     # Datei überschreiben
@@ -54,20 +55,27 @@ def main():
             # diese Variable entscheidet, ob eine Mail versendet werden sollte
             containsNews = False
             for sub in substitutions:
+                print("Assessing found substition:")
+                print(sub)
                 toHash = ','.join([student["name"],date]+list(sub.values()))
                 hashed = hashlib.sha256(toHash.encode('utf-8')).hexdigest()
 
                 isKnownSubstitution = False
                 with open(cacheFile) as f:
+                    print("The substitutions hash is: " + hashed)
+                    print(f.read())
                     if hashed in f.read():
+                        print("This substitution is already known.")
                         isKnownSubstitution = True
 
                 if not isKnownSubstitution:
+                    print("This substition is new or changed")
                     containsNews = True 
                     with open(cacheFile, 'a') as file:
                         file.write(hashed + '\n')
 
             if containsNews:
+                print("There is at least one new or changed substitution. Will continue to send info mail.")
                 subject = mailSubject(student,date)
                 body = mailBody(student,date,substitutions,url)
               
@@ -78,3 +86,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+:
