@@ -69,7 +69,7 @@ def main():
                         isKnownSubstitution = True
 
                 if not isKnownSubstitution:
-                    print("This substition is new or changed")
+                    print("This substition is new or changed.")
                     containsNews = True 
                     with open(cacheFile, 'a') as file:
                         file.write(hashed + '\n')
