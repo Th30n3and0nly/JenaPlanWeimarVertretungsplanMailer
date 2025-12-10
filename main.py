@@ -56,6 +56,8 @@ def main():
             containsNews = False
             for sub in substitutions:
                 print("Assessing found substition:")
+                print(date)
+                print(student["name"])
                 print(sub)
                 toHash = ','.join([student["name"],date]+list(sub.values()))
                 hashed = hashlib.sha256(toHash.encode('utf-8')).hexdigest()
