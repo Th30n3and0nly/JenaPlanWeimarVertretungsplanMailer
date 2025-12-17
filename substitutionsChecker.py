@@ -18,10 +18,12 @@ class SubstitutionsChecker:
         date = soup.body.find('div', attrs={'class' : 'mon_title'}).text
     
         tables = soup.find_all('table')
-        #print(tables)
         headers = [header.text for header in tables[-1].find_all('th')]
-        substitutionPlan = list(filter(lambda x:x,[{headers[i]: cell.text for i, cell in enumerate(row.find_all('td'))} for row in tables[-1].find_all('tr')]))
-
+        if(headers):
+            substitutionPlan = list(filter(lambda x:x,[{headers[i]: cell.text for i, cell in enumerate(row.find_all('td'))} for row in tables[-1].find_all('tr')]))
+        else:
+            substitutionPlan = []
+       
         substitutions = []      
         for line in substitutionPlan:
             for needle in needles:
