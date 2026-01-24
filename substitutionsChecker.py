@@ -18,7 +18,7 @@ class SubstitutionsChecker:
         date = soup.body.find('div', attrs={'class' : 'mon_title'}).text
     
         table = soup.body.find('table', attrs={'class' : 'mon_list'})
-        headers = [header.text for header in table[-1].find_all('th')]
+        headers = [header.text for header in table.find_all('th')]
         if(headers):
             substitutionPlan = list(filter(lambda x:x,[{headers[i]: cell.text for i, cell in enumerate(row.find_all('td'))} for row in table.find_all('tr')]))
         else:
