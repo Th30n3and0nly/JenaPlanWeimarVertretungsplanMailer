@@ -11,7 +11,6 @@ def mailSubject(student,date):
 def mailBody(student,date,substitutions,url):
     body = student["name"] + " hat am " + date + " möglicherweise Vertretung oder Ausfall." + '\n' 
     for sub in substitutions:
-        Stunde	Klasse(n)	Fach	(Lehrer)	Raum	Text	Vertr-Text-2
         body += "Stunde: " + sub["Stunde"] + ", "
         body += "Klassen: " + sub["Klasse(n)"] + ", "
         body += "Fach: "   + sub["Fach"]   + ", "
