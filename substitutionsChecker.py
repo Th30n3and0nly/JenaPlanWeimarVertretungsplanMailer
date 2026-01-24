@@ -17,17 +17,17 @@ class SubstitutionsChecker:
         soup = bs(page,'html.parser')
         date = soup.body.find('div', attrs={'class' : 'mon_title'}).text
     
-        tables = soup.find_all('table')
-        headers = [header.text for header in tables[-1].find_all('th')]
+        table = soup.body.find('table', attrs={'class' : 'mon_list'})
+        headers = [header.text for header in table[-1].find_all('th')]
         if(headers):
-            substitutionPlan = list(filter(lambda x:x,[{headers[i]: cell.text for i, cell in enumerate(row.find_all('td'))} for row in tables[-1].find_all('tr')]))
+            substitutionPlan = list(filter(lambda x:x,[{headers[i]: cell.text for i, cell in enumerate(row.find_all('td'))} for row in table.find_all('tr')]))
         else:
             substitutionPlan = []
        
         substitutions = []      
         for line in substitutionPlan:
             for needle in needles:
-                if(re.search(needle, line["Gruppen"])):
+                if(re.search(needle, line["Klasse(n)"])):
                     substitutions.append(line)
 
         return [date, substitutions, urls[day]]
