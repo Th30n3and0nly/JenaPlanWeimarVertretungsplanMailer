@@ -43,9 +43,9 @@ Die Server-Konfiguration findet man beim jeweiligen Email-Anbieter. Z.B.
 <img width="1200" height="915" alt="image" src="https://github.com/user-attachments/assets/3eda6eb7-1df9-4015-8212-fad79e6aa6f7" />
 
 ## 4. Zu benachrichtigende Gruppen und Adressat konfigurieren
-Das Skript betrachtet die Spalte "Klasse(n)" im Vertretungsplan und vergleicht die Zellen mit einem gegebenen Muster (via regulärem Ausdruck).
-Beispiel: Als Zweitklässler*in in der Stammgruppe "Delfine" muss man den Vertretungsplan für folgende Klasse beachten:
-"Del_2"
+Das Skript betrachtet die Spalte "Gruppen" im Vertretungsplan und vergleicht die Zellen mit einem gegebenen Muster (via regulärem Ausdruck).
+Beispiel: Als Zweitklässler*in in der Stammgruppe "Delfine" muss man den Vertretungsplan für folgende Gruppen beachten:
+"Del","2","2c","UG","UG-C","UG-2C"
 
 Außerdem sind der Name des Schülers/der Schülerin und die Email-Adresse(n) zu definieren, die benachrichtigt werden sollen.
 
@@ -62,7 +62,11 @@ Eine Beispielkonfiguration für 2 Schüler.
       "vater@gmx.de"
     ],
     "memberships": [
-      "Del_1"
+      "Del",
+      "UG-(.*)?C",
+      "^UG$",
+      "1c",
+      "^1$"
     ]
   },
   {
@@ -71,7 +75,11 @@ Eine Beispielkonfiguration für 2 Schüler.
       "moritz@web.de"
     ],
     "memberships": [
-      "Wöl_6"
+      "Wöl",
+      "MG-(.*)?C",
+      "^MG$",
+      "6c",
+      "^6$"
     ]
   }
 ]
