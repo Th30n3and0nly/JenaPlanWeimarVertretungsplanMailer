@@ -12,14 +12,12 @@ def mailBody(student,date,substitutions,url):
     body = student["name"] + " hat am " + date + " möglicherweise Vertretung oder Ausfall." + '\n' 
     for sub in substitutions:
         body += "Stunde: " + sub["Stunde"] + ", "
-        body += "Klassen: " + sub["Klasse(n)"] + ", "
+        body += "Gruppe: " + sub["Gruppen"] + ", "
         body += "Fach: "   + sub["Fach"]   + ", "
-        body += "Lehrer: "   + sub["(Lehrer)"]   + ", "
         body += "Raum: "   + sub["Raum"]   + ", "
+        body += "Art: "    + sub["Art"]
         body += '\n'
-        body += "Hinweis: "+ sub["Text"]
-        body += '\n'
-        body += "Hinweis 2: "+ sub["Vertr-Text-2"]
+        body += "Hinweise: "+ sub["Hinweise"]
         body += '\n'
         body += "Quelle: " + url
         body += '\n'
