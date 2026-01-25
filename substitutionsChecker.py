@@ -27,7 +27,7 @@ class SubstitutionsChecker:
         substitutions = []      
         for line in substitutionPlan:
             for needle in needles:
-                if(re.search(needle, line["Klasse(n)"])):
+                if(re.search(needle, line["Gruppen"])):
                     substitutions.append(line)
 
         return [date, substitutions, urls[day]]
