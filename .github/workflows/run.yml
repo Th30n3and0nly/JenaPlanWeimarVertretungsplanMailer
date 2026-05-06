@@ -49,9 +49,6 @@ jobs:
       - name: Debug list cache dir
         run: ls -l .state/
 
-      - name: Debug cat cache files
-        run: cat .state/*
-
       # Erstelle Datei knownSubstitutions.txt, falls sie noch nicht existiert
       - name: Ensure knownSubstitutions.txt exists
         run: touch .state/knownSubstitutions.txt
