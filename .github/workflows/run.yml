@@ -68,6 +68,10 @@ jobs:
           EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
         run: python main.py
 
+      # Erstelle Datei knownSubstitutions.txt, falls sie noch nicht existiert
+      - name: Ensure knownSubstitutions.txt exists
+        run: touch .state/knownSubstitutions.txt
+
       - name: Debug list cache 3
         run: ls -l .state/knownSubstitutions.txt
 
