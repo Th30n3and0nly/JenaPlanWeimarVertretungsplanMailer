@@ -42,26 +42,26 @@ jobs:
           restore-keys: |
               substitutionsCache-
 
-      - name: Debug list cache
-        run: ls -l .state/knownSubstitutions.txt
-
-      - name: Debug cat cache
-        run: cat .state/knownSubstitutions.txt
-
       # Erstelle .state Verzeichnis, falls es noch nicht existiert
       - name: Ensure state exists
         run: mkdir -p .state
-
-      - name: Debug list cache 2
+        
+      - name: Debug list cache dir
         run: ls -l .state/
 
-      - name: Debug cat cache 2
+      - name: Debug cat cache files
         run: cat .state/*
 
       # Erstelle Datei knownSubstitutions.txt, falls sie noch nicht existiert
       - name: Ensure knownSubstitutions.txt exists
         run: touch .state/knownSubstitutions.txt
         
+      - name: Debug list cache file
+        run: ls -l .state/knownSubstitutions.txt
+
+      - name: Debug cat cache file
+        run: cat .state/knownSubstitutions.txt
+
       # Python Script ausführen
       - name: Run Python script
         env:
@@ -72,10 +72,10 @@ jobs:
           EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
         run: python main.py
 
-      - name: Debug list cache 3
+      - name: Debug list cache file after main
         run: ls -l .state/knownSubstitutions.txt
 
-      - name: Debug cat cache 3
+      - name: Debug cat cache file after main
         run: cat .state/knownSubstitutions.txt
 
       # Zwischenspeichern der bereits bekannten Vertretungen 
