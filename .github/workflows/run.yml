@@ -58,6 +58,10 @@ jobs:
       - name: Debug cat cache 2
         run: cat .state/*
 
+      # Erstelle Datei knownSubstitutions.txt, falls sie noch nicht existiert
+      - name: Ensure knownSubstitutions.txt exists
+        run: touch .state/knownSubstitutions.txt
+        
       # Python Script ausführen
       - name: Run Python script
         env:
@@ -67,10 +71,6 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
         run: python main.py
-
-      # Erstelle Datei knownSubstitutions.txt, falls sie noch nicht existiert
-      - name: Ensure knownSubstitutions.txt exists
-        run: touch .state/knownSubstitutions.txt
 
       - name: Debug list cache 3
         run: ls -l .state/knownSubstitutions.txt
